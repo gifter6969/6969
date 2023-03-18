@@ -1,0 +1,82 @@
+local function buyPremiumShip(player, shipName)
+    -- find the ship with the specified name
+    local ship = nil
+    for i, premiumShip in ipairs(premiumShips) do
+        if premiumShip.name == shipName then
+            ship = premiumShip
+            break
+        end
+    end
+
+    -- if the ship was found, deduct the price from the player's balance and give them the ship
+    if ship and player.leaderstats.Blox >= ship.price then
+        player.leaderstats.Blox = player.leaderstats.Blox - ship.price
+        -- add the ship to the player's inventory or activate it immediately
+        -- ...
+    end
+end
+
+game.Players.PlayerAdded:Connect(function(player)
+    -- add a command for the player to buy a premium ship
+    game:GetService("ReplicatedStorage").BuyPremiumShip.OnServerEvent:Connect(function(shipName)
+        buyPremiumShip(player, shipName)
+        
+        
+        local premiumShips = {
+    {
+        name = "The Black Pearl",
+        price = 1000,
+        speedBoost = 2,
+        durabilityBoost = 5
+    },
+    {
+        name = "The Flying Dutchman",
+        price = 1500,
+        speedBoost = 3,
+        durabilityBoost = 7
+    },
+    -- add more ships here...
+}
+
+local function buyPremiumShip(player, shipName)
+    local ship = nil
+    for i, premiumShip in ipairs(premiumShips) do
+        if premiumShip.name == shipName then
+            ship = premiumShip
+            break
+        end
+    end
+
+    if ship and player.leaderstats.Blox >= ship.price then
+        player.leaderstats.Blox = player.leaderstats.Blox - ship.price
+        -- give the player the ship
+        -- ...
+    end
+end
+
+game.Players.PlayerAdded:Connect(function(player)
+    game:GetService("ReplicatedStorage").BuyPremiumShip.OnServerEvent:Connect(function(shipName)
+        buyPremiumShip(player, shipName)
+    end)
+end)
+
+local fruitLevels = {
+    apple = 1,
+    banana = 2,
+    orange = 3,
+    watermelon = 4
+}
+
+local function increaseFruitLevel(player, fruitName, amount)
+    local level = fruitLevels[fruitName]
+    if level and player.leaderstats.Blox >= amount then
+        player.leaderstats.Blox = player.leaderstats.Blox - amount
+        player.leaderstats[fruitName.."Level"].Value = player.leaderstats[fruitName.."Level"].Value + 1
+    end
+end
+
+game.Players.PlayerAdded:Connect(function(player)
+    game:GetService("ReplicatedStorage").IncreaseFruitLevel.OnServerEvent:Connect(function(fruitName, amount)
+        increaseFruitLevel(player, fruitName, amount)
+    end)
+end)
